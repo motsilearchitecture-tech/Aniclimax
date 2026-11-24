@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090910">
+<title>ANIMATRIX — Create Your Universe</title>
+<style>
+:root{--bg:#090910;--panel:#12121e;--panel2:#19192a;--line:#292940;--text:#f4f2ff;--muted:#9b98b5;--purple:#a66bff;--blue:#52baff;--green:#7de0b0;--danger:#ff718d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#24133d 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}
+.sidebar{background:#0c0c15;border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh}
+.logo{font-weight:950;letter-spacing:3px;font-size:22px;background:linear-gradient(90deg,#c18aff,#58c5ff);color:transparent;background-clip:text}
+.tag{font-size:10px;color:var(--muted);letter-spacing:2px;margin:3px 0 28px}
+.navlabel{font-size:10px;color:#77738f;letter-spacing:2px;margin:22px 10px 8px}
+.nav button{width:100%;text-align:left;background:transparent;color:var(--muted);border:0;padding:12px;border-radius:11px;margin:2px 0}
+.nav button.active,.nav button:hover{background:linear-gradient(100deg,#302044,#17253a);color:white}
+.nav button span{display:inline-block;width:27px}
+.sidefoot{position:absolute;bottom:18px;color:#77738f;font-size:11px;line-height:1.6}
+main{padding:30px;max-width:1450px;width:100%;margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:28px}
+.eyebrow{color:var(--purple);font-size:11px;font-weight:800;letter-spacing:2px}
+h1{font-size:clamp(27px,4vw,42px);line-height:1.08;margin:7px 0}h2{font-size:21px;margin:0 0 15px}h3{font-size:16px;margin:0 0 7px}
+p{color:var(--muted);margin:6px 0}.pill{border:1px solid #44315d;background:#21172f;color:#d7baff;padding:6px 10px;border-radius:99px;font-size:11px}
+.btn{border:0;border-radius:11px;padding:11px 15px;color:white;font-weight:750;background:linear-gradient(100deg,#9255e8,#398ed9);box-shadow:0 8px 25px #7141aa30}
+.btn.secondary{background:#202033;border:1px solid var(--line);box-shadow:none;color:#ddd9f5}.btn.danger{background:#45202d;border:1px solid #75364b;box-shadow:none}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:linear-gradient(145deg,#171725,#10101a);border:1px solid var(--line);border-radius:18px;padding:20px;min-width:0}
+.hero{grid-column:span 12;min-height:230px;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden;background:radial-gradient(circle at 80% 50%,#46206a88,transparent 34%),linear-gradient(120deg,#19152a,#101b2a)}
+.hero h1{max-width:560px}.hero p{max-width:520px}
+.stat{grid-column:span 3}.stat strong{font-size:30px;display:block}.stat small{color:var(--muted)}
+.half{grid-column:span 6}.full{grid-column:span 12}
+.field{display:flex;flex-direction:column;gap:6px;margin:11px 0}.field label{font-size:12px;color:#c7c3dc;font-weight:700}
+input,select,textarea{width:100%;background:#0c0c16;color:var(--text);border:1px solid #34344d;border-radius:10px;padding:11px 12px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px #a66bff20}textarea{min-height:90px;resize:vertical}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}
+.character{display:flex;gap:14px;align-items:center}.avatar{width:66px;height:78px;border-radius:13px;background:linear-gradient(145deg,#42276a,#163f60);display:grid;place-items:center;font-size:28px;border:1px solid #65518b;flex-shrink:0}
+.mini{font-size:11px;color:var(--muted)}.taglist{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.taglist span{font-size:10px;padding:4px 8px;border-radius:99px;background:#252039;color:#cdb4ff}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:13px}
+.empty{border:1px dashed #41405a;border-radius:14px;padding:28px;text-align:center;color:var(--muted)}
+.hidden{display:none!important}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:28px 0 14px}
+.notice{border:1px solid #3d3156;background:#1d1729;border-radius:12px;padding:12px 14px;color:#c9b6e7;font-size:12px;margin-top:14px}
+.footer{color:#6f6b85;font-size:11px;margin-top:30px}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{height:auto;position:relative;padding:14px}.tag,.sidefoot,.navlabel{display:none}.nav{display:flex;overflow:auto;gap:5px}.nav button{white-space:nowrap;width:auto;padding:9px 11px}.nav button span{width:auto;margin-right:5px}main{padding:20px 14px}.stat{grid-column:span 6}.half{grid-column:span 12}.hero{min-height:190px}.hero .orb{display:none}}
+@media(max-width:420px){.top{align-items:flex-start;flex-direction:column}.stat{grid-column:span 6}.card{padding:15px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo">ANIMATRIX</div><div class="tag">CREATE. EVOLVE. PLAY.</div>
+  <div class="navlabel">WORKSPACE</div>
+  <nav class="nav">
+    <button class="active" data-page="home"><span>⌂</span>Overview</button>
+    <button data-page="characters"><span>♙</span>Characters</button>
+    <button data-page="forge"><span>✦</span>Character Forge</button>
+    <button data-page="worlds"><span>◎</span>World Builder</button>
+    <button data-page="stories"><span>▤</span>Anime Studio</button>
+  </nav>
+  <div class="sidefoot">ANIMATRIX V1.0<br>Original universes only.</div>
+</aside>
+<main>
+<header class="top"><div><div class="eyebrow" id="crumb">YOUR UNIVERSE STARTS HERE</div><h1 id="pageTitle">Welcome to ANIMATRIX.</h1><p id="pageSub">Create characters, build worlds and bring original stories to life.</p></div><span class="pill">● LOCAL MODE</span></header>
+
+<section id="home" class="page">
+ <div class="grid">
+  <div class="card hero"><div><div class="eyebrow">THE CREATOR UNIVERSE</div><h1>Every legend starts with an idea.</h1><p>Design original characters. Give them powers. Build the worlds they belong to. Your universe is yours to create.</p><div class="actions"><button class="btn" onclick="go('forge')">＋ Create a character</button><button class="btn secondary" onclick="go('worlds')">Build a world</button></div></div><div class="orb" style="font-size:100px;filter:drop-shadow(0 0 28px #a66bff)">✧</div></div>
+  <div class="card stat"><strong id="statChars">0</strong><small>Characters created</small></div>
+  <div class="card stat"><strong id="statWorlds">0</strong><small>Worlds built</small></div>
+  <div class="card stat"><strong id="statStories">0</strong><small>Story projects</small></div>
+  <div class="card stat"><strong>∞</strong><small>Ideas to explore</small></div>
+  <div class="card half"><h2>Recently created characters</h2><div id="recentChars" class="empty">Your first character is waiting to be created.</div></div>
+  <div class="card half"><h2>Creator roadmap</h2><div class="mini">01 · Character Forge <span style="color:var(--green)">● Active</span></div><p>02 · World Builder</p><p>03 · Anime Studio</p><p>04 · 3D Character Conversion</p><p>05 · Multiplayer Universe</p><div class="notice">The 3D multiplayer game is a future development phase. This version builds the creator and character data foundation first.</div></div>
+ </div>
+</section>
+
+<section id="characters" class="page hidden">
+ <div class="sectionhead"><div><h2>Character Database</h2><p>Every original character in your universe.</p></div><button class="btn" onclick="go('forge')">＋ New character</button></div>
+ <div class="row"><input id="charSearch" placeholder="Search characters..." oninput="renderCharacters()" style="max-width:320px"><select id="roleFilter" onchange="renderCharacters()" style="max-width:180px"><option value="">All roles</option><option>Hero</option><option>Villain</option><option>Supporting</option></select></div>
+ <div id="characterList" class="cards" style="margin-top:16px"></div>
+</section>
+
+<section id="forge" class="page hidden">
+ <div class="sectionhead"><div><h2 id="forgeHeading">Character Forge</h2><p>Build a character who belongs to your universe.</p></div><span class="pill">CREATOR 2.0</span></div>
+ <form id="characterForm" class="grid">
+  <input type="hidden" id="editId">
+  <div class="card half">
+   <h3>01 — Identity</h3>
+   <div class="field"><label>Character name *</label><input id="cName" required placeholder="e.g. Kairo Vex"></div>
+   <div class="row">
+    <div class="field" style="flex:1"><label>Age</label><input id="cAge" type="number" min="1" max="999" placeholder="18"></div>
+    <div class="field" style="flex:1"><label>Species</label><select id="cSpecies"><option>Human</option><option>Demon</option><option>Beastfolk</option><option>Spirit</option><option>Angel</option><option>Hybrid</option><option>Custom</option></select></div>
+   </div>
+   <div class="field"><label>Role</label><select id="cRole"><option>Hero</option><option>Villain</option><option>Supporting</option></select></div>
+   <div class="field"><label>Home world</label><select id="cWorld"><option value="">Unassigned</option></select></div>
+   <div class="field"><label>Personality</label><input id="cPersonality" placeholder="Calm, determined, mischievous..."></div>
+  </div>
+  <div class="card half">
+   <h3>02 — Appearance</h3>
+   <div class="field"><label>Hair colour</label><select id="cHair"><option>Black</option><option>White</option><option>Silver</option><option>Blonde</option><option>Red</option><option>Blue</option><option>Purple</option><option>Green</option><option>Custom</option></select></div>
+   <div class="field"><label>Eye colour</label><input id="cEyes" placeholder="e.g. violet"></div>
+   <div class="field"><label>Outfit / visual design</label><textarea id="cOutfit" placeholder="Describe clothing, accessories, markings and visual details..."></textarea></div>
+   <div class="field"><label>Character image URL (optional)</label><input id="cImage" type="url" placeholder="https://..."></div>
+  </div>
+  <div class="card half">
+   <h3>03 — Power System</h3>
+   <div class="field"><label>Main ability</label><select id="cPower"><option>Void manipulation</option><option>Fire manipulation</option><option>Ice manipulation</option><option>Lightning manipulation</option><option>Gravity manipulation</option><option>Shadow manipulation</option><option>Crystal manipulation</option><option>Time manipulation</option><option>Energy manipulation</option><option>Custom</option></select></div>
+   <div class="field"><label>Signature technique</label><input id="cTechnique" placeholder="Name their special move"></div>
+   <div class="field"><label>Transformation</label><select id="cTransform"><option>None</option><option>Awakening</option><option>Ascended Form</option><option>Demon Form</option><option>Divine Form</option><option>Final Form</option><option>Custom</option></select></div>
+   <div class="field"><label>Power description</label><textarea id="cPowerDesc" placeholder="How does the ability work? What are its limits?"></textarea></div>
+  </div>
+  <div class="card half">
+   <h3>04 — Story & Progression</h3>
+   <div class="field"><label>Backstory</label><textarea id="cBackstory" placeholder="Where did they come from? What shaped them?"></textarea></div>
+   <div class="field"><label>Goal / motivation</label><input id="cGoal" placeholder="What are they trying to achieve?"></div>
+   <div class="field"><label>Character notes</label><textarea id="cNotes" placeholder="Relationships, rivals, extra lore..."></textarea></div>
+  </div>
+  <div class="full row"><button class="btn" type="submit">Save character</button><button class="btn secondary" type="button" onclick="resetCharacterForm()">Clear form</button><span class="mini" id="formMessage"></span></div>
+ </form>
+</section>
+
+<section id="worlds" class="page hidden">
+ <div class="sectionhead"><div><h2>World Builder</h2><p>Create the settings where your characters live.</p></div></div>
+ <form id="worldForm" class="card">
+  <div class="grid">
+   <div class="field half"><label>World name *</label><input id="wName" required placeholder="e.g. Astral Dominion"></div>
+   <div class="field half"><label>Genre</label><select id="wGenre"><option>Fantasy</option><option>Dark Fantasy</option><option>Sci-Fi</option><option>Supernatural</option><option>Adventure</option><option>Post-apocalyptic</option><option>Custom</option></select></div>
+   <div class="field half"><label>Main power system</label><input id="wPower" placeholder="e.g. Energy manipulation"></div>
+   <div class="field half"><label>Main locations</label><input id="wPlaces" placeholder="Cities, kingdoms, islands..."></div>
+   <div class="field full"><label>World description</label><textarea id="wDesc" placeholder="Describe its history, atmosphere and rules..."></textarea></div>
+  </div>
+  <button class="btn" type="submit">＋ Create world</button>
+ </form>
+ <div class="sectionhead"><h2>Your worlds</h2></div><div id="worldList" class="cards"></div>
+</section>
+
+<section id="stories" class="page hidden">
+ <div class="sectionhead"><div><h2>Anime Studio</h2><p>Organise original series, seasons and episode ideas.</p></div></div>
+ <form id="storyForm" class="card">
+  <div class="grid">
+   <div class="field half"><label>Series title *</label><input id="sName" required placeholder="Your anime title"></div>
+   <div class="field half"><label>Genre</label><select id="sGenre"><option>Action Fantasy</option><option>Adventure</option><option>Comedy</option><option>Drama</option><option>Mystery</option><option>Sci-Fi</option><option>Supernatural</option></select></div>
+   <div class="field half"><label>Season</label><input id="sSeason" type="number" min="1" value="1"></div>
+   <div class="field half"><label>Episode / arc title</label><input id="sEpisode" placeholder="The Beginning"></div>
+   <div class="field full"><label>Story idea</label><textarea id="sDesc" placeholder="What's this series about? What happens in this episode?"></textarea></div>
+  </div>
+  <button class="btn" type="submit">＋ Save story project</button>
+ </form>
+ <div class="sectionhead"><h2>Your projects</h2></div><div id="storyList" class="cards"></div>
+</section>
+<div class="footer">ANIMATRIX V1 · Your creations are stored locally in this browser. Export your data regularly to keep a backup.</div>
+</main>
+</div>
+<script>
+const KEY='animatrix_v1_data';
+let data={characters:[],worlds:[],stories:[]};
+try{const saved=JSON.parse(localStorage.getItem(KEY));if(saved)data={...data,...saved}}catch(e){}
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function persist(){localStorage.setItem(KEY,JSON.stringify(data));updateDashboard();renderCharacters();renderWorlds();renderStories();updateWorldOptions()}
+function go(page){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$(page).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));const titles={home:['YOUR UNIVERSE STARTS HERE','Welcome to ANIMATRIX.','Create characters, build worlds and bring original stories to life.'],characters:['YOUR CREATIONS','Character Database','Browse and manage your original characters.'],forge:['CHARACTER CREATION','Character Forge','Build a character who belongs to your universe.'],worlds:['WORLD CREATION','World Builder','Create the places and power systems behind your stories.'],stories:['STORY DEVELOPMENT','Anime Studio','Organise your original series and episode ideas.']};$('crumb').textContent=titles[page][0];$('pageTitle').textContent=titles[page][1];$('pageSub').textContent=titles[page][2];if(page==='forge'&&!$('editId').value)resetCharacterForm();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+function updateDashboard(){$('statChars').textContent=data.characters.length;$('statWorlds').textContent=data.worlds.length;$('statStories').textContent=data.stories.length;const recent=[...data.characters].slice(-3).reverse();$('recentChars').innerHTML=recent.length?recent.map(c=>`<div class="character" style="margin:10px 0"><div class="avatar">${esc((c.name||'?')[0].toUpperCase())}</div><div><b>${esc(c.name)}</b><div class="mini">${esc(c.role)} · ${esc(c.power)}</div></div></div>`).join(''):'Your first character is waiting to be created.'}
+function updateWorldOptions(){const sel=$('cWorld'),v=sel.value;sel.innerHTML='<option value="">Unassigned</option>'+data.worlds.map(w=>`<option value="${esc(w.id)}">${esc(w.name)}</option>`).join('');sel.value=v}
+function renderCharacters(){const q=($('charSearch')?.value||'').toLowerCase(),r=$('roleFilter')?.value||'';const arr=data.characters.filter(c=>(!r||c.role===r)&&[c.name,c.species,c.power,c.worldName].join(' ').toLowerCase().includes(q));$('characterList').innerHTML=arr.length?arr.map(c=>`<article class="card"><div class="character"><div class="avatar">${c.image?`<img src="${esc(c.image)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:12px" onerror="this.remove()">`:'✦'}</div><div><h3>${esc(c.name)}</h3><div class="mini">${esc(c.species)} · ${esc(c.role)}</div></div></div><div class="taglist"><span>${esc(c.power)}</span><span>${esc(c.transform)}</span></div><p class="mini">${esc(c.worldName||'No world assigned')}</p><div class="actions"><button class="btn secondary" onclick="viewCharacter('${c.id}')">View profile</button><button class="btn secondary" onclick="editCharacter('${c.id}')">Edit</button><button class="btn danger" onclick="deleteCharacter('${c.id}')">Delete</button></div></article>`).join(''):'<div class="empty">No characters found. Create your first character in Character Forge.</div>'}
+function resetCharacterForm(){ $('characterForm').reset();$('editId').value='';$('forgeHeading').textContent='Character Forge';$('formMessage').textContent='';$('cAge').value='';$('cWorld').value='';}
+const fields=['cName','cAge','cSpecies','cRole','cWorld','cPersonality','cHair','cEyes','cOutfit','cImage','cPower','cTechnique','cTransform','cPowerDesc','cBackstory','cGoal','cNotes'];
+function editCharacter(id){const c=data.characters.find(x=>x.id===id);if(!c)return;go('forge');$('editId').value=id;$('forgeHeading').textContent='Edit Character';fields.forEach(f=>$(f).value=c[({cName:'name',cAge:'age',cSpecies:'species',cRole:'role',cWorld:'worldId',cPersonality:'personality',cHair:'hair',cEyes:'eyes',cOutfit:'outfit',cImage:'image',cPower:'power',cTechnique:'technique',cTransform:'transform',cPowerDesc:'powerDesc',cBackstory:'backstory',cGoal:'goal',cNotes:'notes'})[f]]??'');}
+function viewCharacter(id){const c=data.characters.find(x=>x.id===id);if(!c)return;alert(`${c.name}\n${c.species} · ${c.role}\nPower: ${c.power}\nTechnique: ${c.technique||'Not set'}\nTransformation: ${c.transform}\nWorld: ${c.worldName||'Unassigned'}\n\nBackstory:\n${c.backstory||'No backstory yet.'}`)}
+function deleteCharacter(id){if(confirm('Delete this character? This cannot be undone.')){data.characters=data.characters.filter(c=>c.id!==id);persist()}}
+$('characterForm').addEventListener('submit',e=>{e.preventDefault();const id=$('editId').value||crypto.randomUUID();const world=data.worlds.find(w=>w.id===$('cWorld').value);const map={cName:'name',cAge:'age',cSpecies:'species',cRole:'role',cWorld:'worldId',cPersonality:'personality',cHair:'hair',cEyes:'eyes',cOutfit:'outfit',cImage:'image',cPower:'power',cTechnique:'technique',cTransform:'transform',cPowerDesc:'powerDesc',cBackstory:'backstory',cGoal:'goal',cNotes:'notes'};let c={id,worldName:world?.name||''};fields.forEach(f=>c[map[f]]=$(f).value.trim());const i=data.characters.findIndex(x=>x.id===id);if(i>=0)data.characters[i]=c;else data.characters.push(c);persist();$('formMessage').textContent='Character saved successfully!';$('editId').value='';$('characterForm').reset();$('forgeHeading').textContent='Character Forge';});
+$('worldForm').addEventListener('submit',e=>{e.preventDefault();data.worlds.push({id:crypto.randomUUID(),name:$('wName').value.trim(),genre:$('wGenre').value,power:$('wPower').value.trim(),places:$('wPlaces').value.trim(),desc:$('wDesc').value.trim()});$('worldForm').reset();persist()});
+function renderWorlds(){$('worldList').innerHTML=data.worlds.length?data.worlds.map(w=>`<article class="card"><span class="pill">${esc(w.genre)}</span><h3 style="margin-top:12px">${esc(w.name)}</h3><p>${esc(w.desc||'A new universe awaits its story.')}</p><div class="taglist"><span>${esc(w.power||'No power system yet')}</span></div><p class="mini">Locations: ${esc(w.places||'Not defined')}</p><div class="actions"><button class="btn danger" onclick="deleteWorld('${w.id}')">Delete world</button></div></article>`).join(''):'<div class="empty">No worlds yet. Build the first universe for your characters.</div>'}
+function deleteWorld(id){if(confirm('Delete this world? Characters assigned to it will keep their saved world name.')){data.worlds=data.worlds.filter(w=>w.id!==id);persist()}}
+$('storyForm').addEventListener('submit',e=>{e.preventDefault();data.stories.push({id:crypto.randomUUID(),name:$('sName').value.trim(),genre:$('sGenre').value,season:$('sSeason').value,episode:$('sEpisode').value.trim(),desc:$('sDesc').value.trim()});$('storyForm').reset();$('sSeason').value=1;persist()});
+function renderStories(){$('storyList').innerHTML=data.stories.length?data.stories.map(s=>`<article class="card"><span class="pill">${esc(s.genre)}</span><h3 style="margin-top:12px">${esc(s.name)}</h3><p>Season ${esc(s.season)} · ${esc(s.episode||'Episode idea not titled')}</p><p>${esc(s.desc)}</p><div class="actions"><button class="btn danger" onclick="deleteStory('${s.id}')">Delete project</button></div></article>`).join(''):'<div class="empty">No story projects yet. Start planning your first original anime.</div>'}
+function deleteStory(id){if(confirm('Delete this story project?')){data.stories=data.stories.filter(s=>s.id!==id);persist()}}
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='animatrix-backup.json';a.click();URL.revokeObjectURL(a.href)}
+// Add backup controls without crowding the main navigation.
+const backup=document.createElement('button');backup.className='btn secondary';backup.textContent='Export backup';backup.style.position='fixed';backup.style.right='16px';backup.style.bottom='16px';backup.style.zIndex='5';backup.onclick=exportData;document.body.appendChild(backup);
+updateDashboard();renderCharacters();renderWorlds();renderStories();updateWorldOptions();
+</script>
+</body></html>
